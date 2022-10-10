@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+
+    <Properties>
+        <Property name="log-level">${env:LOG_LEVEL:-info}</Property>
+        <Property name="log-jmsconnection">${env:LOG_JMSCONNECTION:-INFO}</Property>
+        <Property name="log-pattern">%d [%t]  %-5p %c - %m%n</Property>
+    </Properties>
+    <Appenders>
+
+        <!-- ***********************************************************************
+            Définition des appenders  applicatifs
+        *********************************************************************-->
+
+        <Console name="consoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log-pattern}"/>
+        </Console>
+
+        <File name="file" fileName="logs.txt">
+            <PatternLayout pattern="${log-pattern}"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+
+        <!-- ***********************************************************************
+            definition des loggers Applicatifs
+        *********************************************************************-->
+        <Logger name="fr.su" level="${log-level}" additivity="false">
+            <AppenderRef ref="consoleAppender"/>
+            <AppenderRef ref="file"/>
+        </Logger>
+
+        <!-- ***********************************************************************
+            definition des loggers techniques
+        *********************************************************************-->
+        <Logger name="fr.su.out.osj.sutools" level="${log-level}" additivity="false">
+            <AppenderRef ref="consoleAppender"/>
+        </Logger>
+
+        <Logger name="org.apache.logging.log4j.LogManager" level="${log-level}" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+
+        <Logger name="fr.su.back" level="${log-level}" additivity="false">
+            <AppenderRef ref="consoleAppender"/>
+        </Logger>
+        <Logger name="fr.su.back.api.logging" level="${log-level}" additivity="false">
+            <AppenderRef ref="consoleAppender"/>
+        </Logger>
+        <Logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="${log-level}"
+                additivity="false">
+            <AppenderRef ref="consoleAppender"/>
+        </Logger>
+        <Logger name="org.hibernate.SQL" level="${log-level}" additivity="false">
+            <AppenderRef ref="consoleAppender"/>
+        </Logger>
+
+        <Logger name="org.hibernate.type" level="${log-level}" additivity="false">
+            <AppenderRef ref="consoleAppender"/>
+        </Logger>
+
+        <Logger name="org.apache.qpid.jms.JmsConnection" level="${log-jmsconnection}" additivity="false">
+            <AppenderRef ref="consoleAppender"/>
+        </Logger>
+
+        <!-- ***********************************************************************
+            definition du root pour ne pas perdre de logs
+        *********************************************************************-->
+        <Root level="${log-level}">
+            <AppenderRef ref="consoleAppender"/>
+        </Root>
+
+    </Loggers>
+
+</Configuration>
